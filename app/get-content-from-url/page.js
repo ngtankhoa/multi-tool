@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function GetFromURL() {
   const [data, setData] = useState([])
+  const [errors, setErrors] = useState([])
   const textAreaRef = useRef()
 
   useEffect(() => {
@@ -40,10 +41,14 @@ export default function GetFromURL() {
         console.log({ title, description })
         setData((curData) => [...curData, { title, description }])
       })
+      .catch((err) => {
+        setErrors((curUrl) => [...curUrl, url])
+      })
   }
 
   const handleGetResult = () => {
     setData([])
+    setErrors([])
     const urlList = textAreaRef.current.value.split(/\r?\n|\r|\n/g)
     console.log(urlList)
     urlList
@@ -55,15 +60,30 @@ export default function GetFromURL() {
 
   return (
     <div>
-      <div className='flex flex-col items-center gap-4'>
+      <div className='flex flex-col items-center gap-4 pt-4'>
+        <p>Hi mini Sài Gòn : )</p>
         <textarea ref={textAreaRef} rows='7' className='text-black w-1/2' />
         <button onClick={handleGetResult} className='bg-white text-black py-2 px-4 rounded-md'>
           Lấy title và description
         </button>
       </div>
-      {data.map(({ title, description }, idx) => (
-        <div key={idx}>{`${title},      ${description}`}</div>
-      ))}
+      {errors.length !== 0 && (
+        <div className='border border-orange-600 mt-4'>
+          Có lỗi, không lấy được data từ những url sau:
+          {errors.map((err, idx) => (
+            <div key={idx}>{err}</div>
+          ))}
+        </div>
+      )}
+
+      {data.length !== 0 && (
+        <div className='border border-sky-600 mt-4'>
+          Lấy được data:
+          {data.map(({ title, description }, idx) => (
+            <div key={idx}>{`${title},      ${description}`}</div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
