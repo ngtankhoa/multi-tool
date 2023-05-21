@@ -38,6 +38,7 @@ export default function GetFromURL() {
         const doc = new DOMParser().parseFromString(data.contents, 'text/xml')
         const title = data.contents.match(/<title[^>]*>([^<]+)<\/title>/)[1]
         const description = doc.querySelector('meta[name="description"]').getAttribute('content')
+        console.log(doc)
         console.log({ title, description })
         setData((curData) => [...curData, { title, description }])
       })
@@ -62,7 +63,7 @@ export default function GetFromURL() {
     <div>
       <div className='flex flex-col items-center gap-4 pt-4'>
         <p>Hi mini Sài Gòn : )</p>
-        <textarea ref={textAreaRef} rows='7' className='text-black w-1/2' />
+        <textarea ref={textAreaRef} rows='7' className='text-black sm:w-3/4 lg:w-1/2 ' />
         <button onClick={handleGetResult} className='bg-white text-black py-2 px-4 rounded-md'>
           Lấy title và description
         </button>
