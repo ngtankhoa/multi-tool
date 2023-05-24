@@ -37,7 +37,7 @@ export default function GetFromURL() {
         .map((result) => {
           const doc = new DOMParser().parseFromString(result.value.data, 'text/xml')
           const title = result.value.data.match(/<title[^>]*>([^<]+)<\/title>/)[1]
-          const description = doc.querySelector('meta[name="description"]').getAttribute('content')
+          const description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || ''
           return { title, description }
         })
     )
